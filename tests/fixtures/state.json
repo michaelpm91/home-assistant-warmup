@@ -1,0 +1,64 @@
+{
+  "data": {
+    "user": {
+      "locations": [
+        {
+          "id": 1001,
+          "name": "Home",
+          "locMode": "not_geo",
+          "address": {"currency": 0},
+          "holiday": {"holStart": null, "holEnd": null, "holTemp": 0},
+          "rooms": [
+            {
+              "id": 2002,
+              "type": "7ie",
+              "roomName": "Bathroom",
+              "serial": "AABBCCDDEEFF",
+              "runMode": "fixed",
+              "roomMode": "fixed",
+              "targetTemp": 190,
+              "currentTemp": 205,
+              "mainLabel": "floor",
+              "fixedTemp": 190,
+              "overrideTemp": 0,
+              "overrideDur": 0,
+              "comfortTemp": 200,
+              "sleepTemp": 180,
+              "awayTemp": 160,
+              "energy": "0.25",
+              "cost": "0.05",
+              "schedule": [
+                {"mode": "0", "type": "0", "day": "0", "node": "2", "value": [{"start": "06:00", "end": "08:00", "temp": "210"}, {"start": "20:00", "end": "23:00", "temp": "200"}]},
+                {"mode": "0", "type": "0", "day": "1", "node": "2", "value": [{"start": "06:00", "end": "08:00", "temp": "210"}]},
+                {"mode": "0", "type": "0", "day": "2", "node": "2", "value": [{"start": "06:00", "end": "08:00", "temp": "210"}]},
+                {"mode": "0", "type": "0", "day": "3", "node": "2", "value": [{"start": "06:00", "end": "08:00", "temp": "210"}]},
+                {"mode": "0", "type": "0", "day": "4", "node": "2", "value": [{"start": "06:00", "end": "08:00", "temp": "210"}]},
+                {"mode": "0", "type": "0", "day": "5", "node": "2", "value": []},
+                {"mode": "0", "type": "0", "day": "6", "node": "2", "value": []}
+              ],
+              "isUnavailable": false,
+              "lastPoll": 34,
+              "thermostat4ies": [
+                {
+                  "deviceSN": "AABBCCDDEEFF",
+                  "appFw": "11.052",
+                  "airTemp": "210",
+                  "floor1Temp": "205",
+                  "floor2Temp": "0",
+                  "minTemp": 70,
+                  "maxTemp": 300,
+                  "isFaultAir": false,
+                  "isFaultFloor1": false,
+                  "isFaultFloor2": false,
+                  "heatingTarget": "floor",
+                  "parameters": {"outputStatus": 0, "systemPower": 300}
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "status": "success"
+}

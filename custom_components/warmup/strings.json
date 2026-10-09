@@ -1,0 +1,102 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Sign in to Warmup",
+        "description": "Use the same details as the MyHeating app. The password is only used to fetch an access token and is not stored.",
+        "data": {
+          "email": "Email",
+          "password": "Password"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Sign in to Warmup again",
+        "description": "Warmup no longer accepts the saved token for {email}.",
+        "data": {
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Email or password is wrong.",
+      "cannot_connect": "Could not reach Warmup.",
+      "unknown": "Unexpected error."
+    },
+    "abort": {
+      "already_configured": "This account is already set up.",
+      "reauth_successful": "Signed in again."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "override_minutes": "Override length (minutes)"
+        },
+        "data_description": {
+          "override_minutes": "How long a temperature change lasts when the thermostat is following its schedule."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "floor_temperature": {
+        "name": "Floor temperature"
+      },
+      "air_temperature": {
+        "name": "Air temperature"
+      },
+      "override_remaining": {
+        "name": "Override remaining"
+      },
+      "rated_power": {
+        "name": "Rated power"
+      },
+      "energy_today": {
+        "name": "Energy today"
+      },
+      "cost_today": {
+        "name": "Cost today"
+      }
+    },
+    "binary_sensor": {
+      "air_sensor_fault": {
+        "name": "Air sensor fault"
+      },
+      "floor_sensor_fault": {
+        "name": "Floor sensor fault"
+      }
+    }
+  },
+  "services": {
+    "set_override": {
+      "name": "Set override",
+      "description": "Holds a temperature for a while, then goes back to what the thermostat was doing.",
+      "fields": {
+        "temperature": {
+          "name": "Temperature",
+          "description": "Temperature to hold."
+        },
+        "duration": {
+          "name": "Duration",
+          "description": "How long to hold it. Defaults to the override length set in the integration options."
+        }
+      }
+    },
+    "cancel_override": {
+      "name": "Cancel override",
+      "description": "Ends the current override."
+    },
+    "set_schedule": {
+      "name": "Set schedule",
+      "description": "Replaces the thermostat's heating periods for the days given. Days left out keep their current periods. Outside the periods the thermostat holds its setback temperature.",
+      "fields": {
+        "schedule": {
+          "name": "Schedule",
+          "description": "Days (monday to sunday), each with a list of periods with start, end and temperature."
+        }
+      }
+    }
+  }
+}

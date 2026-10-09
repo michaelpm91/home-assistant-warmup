@@ -1,0 +1,44 @@
+set_override:
+  target:
+    entity:
+      integration: warmup
+      domain: climate
+  fields:
+    temperature:
+      required: true
+      example: 22.5
+      selector:
+        number:
+          min: 5
+          max: 40
+          step: 0.5
+          unit_of_measurement: "°C"
+    duration:
+      example: "01:00:00"
+      selector:
+        duration:
+
+cancel_override:
+  target:
+    entity:
+      integration: warmup
+      domain: climate
+
+set_schedule:
+  target:
+    entity:
+      integration: warmup
+      domain: climate
+  fields:
+    schedule:
+      required: true
+      example: |
+        monday:
+          - start: "06:00"
+            end: "08:00"
+            temperature: 21
+          - start: "20:00"
+            end: "23:00"
+            temperature: 20
+      selector:
+        object:
