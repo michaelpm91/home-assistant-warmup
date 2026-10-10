@@ -41,6 +41,20 @@
   },
   "entity": {
     "sensor": {
+      "mode": {
+        "name": "Mode",
+        "state": {
+          "off": "Off",
+          "schedule": "Schedule",
+          "override": "Override",
+          "fixed": "Fixed temperature",
+          "anti_frost": "Frost protection",
+          "holiday": "Holiday",
+          "fil_pilote": "Fil pilote",
+          "gradual": "Gradual",
+          "relay": "Relay"
+        }
+      },
       "floor_temperature": {
         "name": "Floor temperature"
       },
@@ -66,6 +80,11 @@
       },
       "floor_sensor_fault": {
         "name": "Floor sensor fault"
+      }
+    },
+    "calendar": {
+      "schedule": {
+        "name": "Schedule"
       }
     }
   },

@@ -15,6 +15,8 @@ For each thermostat:
 | Entity | Notes |
 | --- | --- |
 | Climate | Off, Heat (fixed temperature) and Auto (the thermostat's weekly schedule). Away preset is frost protection. |
+| Mode | What the thermostat is doing: schedule, fixed temperature, override, frost protection, holiday or off. |
+| Schedule (calendar) | The weekly heating periods, shown in the Calendar dashboard. Read-only; change them with `warmup.set_schedule`. |
 | Floor temperature, Air temperature | Both probes, where fitted. |
 | Energy today | kWh as counted by Warmup. Works in the Energy dashboard. |
 | Cost today | At the tariff set in your Warmup account. |

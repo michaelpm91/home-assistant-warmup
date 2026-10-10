@@ -11,6 +11,7 @@ from pytest_homeassistant_custom_component.common import async_fire_time_changed
 from custom_components.warmup.const import DOMAIN, SCAN_INTERVAL
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.exceptions import HomeAssistantError, ServiceValidationError
+from homeassistant.helpers.entity_component import async_update_entity
 from homeassistant.util import dt as dt_util
 
 from .conftest import GRAPHQL_URL, room_of
@@ -226,3 +227,45 @@ async def test_auth_failure_starts_reauth(hass, setup, aioclient_mock):
 async def test_unload(hass, setup):
     assert await hass.config_entries.async_unload(setup.entry_id)
     assert setup.state is ConfigEntryState.NOT_LOADED
+
+
+async def test_mode_sensor(hass, setup, aioclient_mock, state):
+    entity = "sensor.bathroom_mode"
+    assert hass.states.get(entity).state == "fixed"
+    room_of(state).update(runMode="override", overrideTemp=230, overrideDur=45)
+    await _poll(hass, aioclient_mock, state)
+    assert hass.states.get(entity).state == "override"
+    room_of(state).update(runMode="something_new")
+    await _poll(hass, aioclient_mock, state)
+    assert hass.states.get(entity).state == "unknown"
+
+
+async def test_schedule_calendar(hass, setup, freezer):
+    await hass.config.async_set_time_zone("Europe/London")
+    # Monday 5 October 2026, 07:00 local: inside the 06:00-08:00 period.
+    freezer.move_to("2026-10-05T06:00:00+00:00")
+    async_fire_time_changed(hass)
+    await hass.async_block_till_done()
+    await async_update_entity(hass, "calendar.bathroom_schedule")
+    state = hass.states.get("calendar.bathroom_schedule")
+    assert state.state == "on"
+    assert state.attributes["message"] == "21 °C"
+    assert state.attributes["start_time"] == "2026-10-05 06:00:00"
+    assert state.attributes["end_time"] == "2026-10-05 08:00:00"
+
+    response = await hass.services.async_call(
+        "calendar",
+        "get_events",
+        {
+            "entity_id": "calendar.bathroom_schedule",
+            "start_date_time": "2026-10-05T00:00:00+01:00",
+            "end_date_time": "2026-10-12T00:00:00+01:00",
+        },
+        blocking=True,
+        return_response=True,
+    )
+    events = response["calendar.bathroom_schedule"]["events"]
+    # Monday has two periods, Tuesday to Friday one each, the weekend none.
+    assert len(events) == 6
+    assert events[1]["summary"] == "20 °C"
+    assert events[1]["start"] == "2026-10-05T20:00:00+01:00"

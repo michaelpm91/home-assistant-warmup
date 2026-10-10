@@ -31,11 +31,31 @@ PARALLEL_UPDATES = 0
 
 @dataclass(frozen=True, kw_only=True)
 class WarmupSensorDescription(SensorEntityDescription):
-    value_fn: Callable[[Room], float | int | None]
+    value_fn: Callable[[Room], float | int | str | None]
     exists_fn: Callable[[Room], bool] = lambda room: True
 
 
+# RunMode values the API can report.
+RUN_MODES = [
+    "off",
+    "schedule",
+    "override",
+    "fixed",
+    "anti_frost",
+    "holiday",
+    "fil_pilote",
+    "gradual",
+    "relay",
+]
+
 SENSORS: tuple[WarmupSensorDescription, ...] = (
+    WarmupSensorDescription(
+        key="mode",
+        translation_key="mode",
+        device_class=SensorDeviceClass.ENUM,
+        options=RUN_MODES,
+        value_fn=lambda room: room.run_mode if room.run_mode in RUN_MODES else None,
+    ),
     WarmupSensorDescription(
         key="floor_temperature",
         translation_key="floor_temperature",
@@ -107,7 +127,7 @@ class WarmupSensor(WarmupEntity, SensorEntity):
         self.entity_description = description
 
     @property
-    def native_value(self) -> float | int | None:
+    def native_value(self) -> float | int | str | None:
         return self.entity_description.value_fn(self.room)
 
 
